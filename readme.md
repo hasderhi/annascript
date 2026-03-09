@@ -1,7 +1,7 @@
 # annaScript
 
 ![Python](https://img.shields.io/badge/Python-3.13.2-blue)
-![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)
+![Version](https://img.shields.io/badge/Version-1.1.2-brightgreen)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-lightgrey)
 ![Platforms](https://img.shields.io/badge/Platforms-All-success)
 
