@@ -279,3 +279,16 @@ img {
     margin-top: 10px;
     text-align: center;
 }
+.chart-title {
+    width: 200px;
+}
+
+/* Coordinate System */
+
+.coord-axis { stroke: #ffffff; }
+
+.coord-grid { stroke: #ccc; }
+
+.coord-label { fill: #ffffff; }
+
+.figure-label { fill: #ffffff; }
