@@ -1,5 +1,9 @@
 # annaScript
 
+
+> [!WARNING]  
+> Yes, the annaScript repository is currently behind the annaScript Studio repository. This is because I'm developing the language along with the editor and therefore need to convert a few things first. Coming soon...
+
 ![Python](https://img.shields.io/badge/Python-3.13.2-blue)
 ![Version](https://img.shields.io/badge/Version-1.2.1-brightgreen)
 ![Dependencies](https://img.shields.io/badge/Dependencies-None-lightgrey)
