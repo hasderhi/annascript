@@ -1,6 +1,7 @@
 from ast_nodes import *
 from inline import parse_inline
 from evaluator import safe_eval, normalize_expr
+from highlighter import highlight_code
 import html
 from typing import Callable
 import re
@@ -320,6 +321,7 @@ def render(node: Node, cursor_line=None) -> str:
         )
 
         js_auto_scroll = (
+            '<!-- Auto scroll to cursor pos -->\n'
             '<script>\n'
             'window.onload = () => {\n'
             '    const el = document.getElementById("scroll-destination");\n'
@@ -330,8 +332,9 @@ def render(node: Node, cursor_line=None) -> str:
             '        });\n'
             '    }\n'
             '};\n'
-            '</script>\n'
+            '</script>\n\n'
         )
+
 
         body = "\n".join(render(ch, cursor_line) for ch in node.children)
         return f"{head}\n  <body>\n{body}\n\n{js_auto_scroll}\n  </body>\n</html>"
@@ -347,7 +350,13 @@ def render(node: Node, cursor_line=None) -> str:
         return marker_for(node, cursor_line) + f"<p>{parse_inline(txt)}</p>"
 
     if isinstance(node, CodeBlock):
-        return marker_for(node, cursor_line) + f"<pre><code>{html.escape(node.code)}</code></pre>"
+        highlighted = highlight_code(node.code, node.lang)
+        lang_class = f" language-{html.escape(node.lang)}" if node.lang else ""
+        if node.inline:
+            return marker_for(node, cursor_line) + (
+                f'<pre class="code-inline{lang_class}"><code>{highlighted}</code></pre>'
+            )
+        return marker_for(node, cursor_line) + f'<pre class="code-block{lang_class}"><code>{highlighted}</code></pre>'
 
     if isinstance(node, ListItem):
         inner = parse_inline(node.text)
@@ -380,6 +389,31 @@ def render(node: Node, cursor_line=None) -> str:
         fn = _macro_registry.get(node.name, render_macro_generic)
         return marker_for(node, cursor_line) + fn(node)
 
+    if isinstance(node, Marker):
+        escaped_name = html.escape(node.name)
+        escaped_color = html.escape(node.color.lower())
+
+        icon = "✕" if escaped_color == "fail" else "✓"
+
+        return marker_for(node, cursor_line) + (
+            f'<span class="marker marker-{escaped_color}">'
+            f'<span class="marker-icon">{icon}</span> '
+            f'{escaped_name}'
+            f'</span><br>'
+        )
+    
+    if isinstance(node, ToDo):
+        checked_attr = "checked" if node.checked else ""
+        completed_class = " completed" if node.checked else ""
+        escaped_name = html.escape(node.name)
+
+        return marker_for(node, cursor_line) + (
+            f'<label class="todo-item{completed_class}">'
+            f'<input type="checkbox" class="todo-checkbox" {checked_attr}> '
+            f'{escaped_name}'
+            f'</label><br>' # break so multiple boxes create a list
+        )
+    
     if isinstance(node, Comment):
         return ""
 
