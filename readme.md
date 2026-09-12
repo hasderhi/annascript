@@ -1,6 +1,5 @@
 # annaScript
 
-
 > [!WARNING]  
 > Yes, the annaScript repository is currently behind the annaScript Studio repository. This is because I'm developing the language along with the editor and therefore need to convert a few things first. Coming soon...
 
