@@ -23,12 +23,24 @@ class Paragraph(Node):
 @dataclass
 class CodeBlock(Node):
     code: str = ""
+    lang: str | None = None
+    inline: bool = False
 
 @dataclass
 class Macro(Node):
     name: str = ""
     attrs: dict = field(default_factory=dict)
     content: str = ""
+
+@dataclass
+class ToDo(Node):
+    name: str = ""
+    checked: bool = False
+
+@dataclass
+class Marker(Node):
+    name: str = ""
+    color: str = "blue"
 
 @dataclass
 class ListItem(Node):

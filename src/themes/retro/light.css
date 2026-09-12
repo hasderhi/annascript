@@ -87,17 +87,26 @@ code {
     padding: 0.2em 0.4em;
     border-radius: 4px;
     font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
 }
 
-
-pre.code-block {
+pre {
     background: var(--code-bg);
     border: 1px solid var(--code-border);
     padding: 1rem;
     border-radius: 6px;
     overflow-x: auto;
+    margin: 1.5rem 0;
 }
 
+pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
+    display: block;
+}
 
 ul, ol {
     margin: 1rem 0;
@@ -129,6 +138,109 @@ td {
     border: 1px solid var(--table-border);
 }
 
+.code-block,
+.code-inline {
+    background: #f6f7f8;
+    border: 1px solid #e2e4e8;
+    border-radius: 6px;
+    color: #2b2f36;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    overflow-x: auto;
+}
+
+.code-block {
+    padding: 0.9em 1em;
+    margin: 0.75em 0;
+}
+
+.code-inline {
+    padding: 0.15em 0.5em;
+    margin: 0.4em 0;
+    display: inline-block;
+}
+
+.code-block code,
+.code-inline code {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+}
+
+.highlight-keyword {
+    color: #6a4fb3;
+}
+
+.highlight-string {
+    color: #4d7a3f;
+}
+
+.highlight-number {
+    color: #9a5b23;
+}
+
+.highlight-comment {
+    color: #8a8f98;
+    font-style: italic;
+}
+
+.highlight-operator {
+    color: #3d6b8a;
+}
+
+.highlight-punctuation {
+    color: #5a5f68;
+}
+
+.marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-weight: 500;
+    color: var(--accent); /* fallback */
+}
+
+.marker-icon {
+    font-weight: bold;
+}
+
+.marker-red {
+    color: #a51000;
+}
+
+.marker-green {
+    color: #007230;
+}
+
+.marker-yellow {
+    color: #d27400;
+}
+
+.marker-blue {
+    color: #003b63;
+}
+
+.marker-fail {
+    color: #a51000;
+}
+
+.todo-checkbox {
+    pointer-events: none;
+    vertical-align: middle;
+    accent-color: var(--accent);
+}
+
+.todo-item {
+    pointer-events: none;
+    color: inherit;
+}
+
+.todo-item.completed {
+    color: var(--text-soft);
+}
 
 .note {
     background: var(--note-bg);
@@ -214,6 +326,68 @@ td {
 .frac span.bottom {
     border-top: 1.5px solid;
 }
+
+.binom {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1;
+}
+
+.binom .paren {
+    font-size: 1.6em;
+    font-family: inherit;
+    transform: scaleY(1.2);
+}
+
+.binom .stack {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0 0.15em;
+    font-size: 0.85em;
+}
+
+.binom .stack > span {
+    display: block;
+    padding: 0.05em 0;
+}
+
+.lim {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin-right: 0.2em;
+}
+
+.lim .main {
+    font-size: 1em;
+    line-height: 1;
+}
+
+.lim .sub {
+    font-size: 0.7em;
+    line-height: 1;
+    margin-top: -0.1em;
+}
+
+.vec {
+    display: inline-block;
+    position: relative;
+    padding-right: 0.25em;
+}
+
+.vec .arrow {
+    position: absolute;
+    top: -0.65em;
+    left: 0;
+    font-size: 0.8em;
+    pointer-events: none;
+}
+
 
 /* Charts */
 
