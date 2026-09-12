@@ -4,12 +4,50 @@ import html
 
 
 def apply_math_extensions(text):
+    # Binomial
+    binom_pattern = r"\\binom\{([^}]+)\}\{([^}]+)\}"
+    text = re.sub(
+        binom_pattern,
+        r'<span class="binom"><span class="paren">(</span><span class="stack"><span>\1</span><span>\2</span></span><span class="paren">)</span></span>',
+        text
+    )
+
+    # Fraction
     frac_pattern = r"\\frac\{([^}]+)\}\{([^}]+)\}"
-    text = re.sub(frac_pattern, r'<span class="frac"><span>\1</span><span class="bottom">\2</span></span>', text)
-    
-    text = re.sub(r"\\sqrt\{([^}]+)\}", r'√<span class="overline">\1</span>', text)
-    text = re.sub(r"\\bar\{([^}]+)\}", r'<span class="overline">\1</span>', text)
-        
+    text = re.sub(
+        frac_pattern,
+        r'<span class="frac"><span>\1</span><span class="bottom">\2</span></span>',
+        text
+    )
+
+    # Square root
+    text = re.sub(
+        r"\\sqrt\{([^}]+)\}",
+        r'√<span class="overline">\1</span>',
+        text
+    )
+
+    # bar
+    text = re.sub(
+        r"\\bar\{([^}]+)\}",
+        r'<span class="overline">\1</span>',
+        text
+    )
+
+    # vector
+    text = re.sub(
+        r"\\vec\{([^}]+)\}",
+        r'<span class="vec">\1<span class="arrow">→</span></span>',
+        text
+    )
+
+    # limit
+    text = re.sub(
+        r"\\lim_\{([^}]*)\s*\\to\s*([^}]*)\}",
+        r'<span class="lim"><span class="main">lim</span><span class="sub"><span>\1 → \2</span></span></span>',
+        text
+    )
+
     return text
 
 
@@ -36,11 +74,16 @@ def parse_inline(text: str) -> str:
         "!=": "≠",
         "~": "≈",
         "~~": "≈",
+
+        r"\cong": "≅",
+        r"\equiv": "≡",
+        r"\impliedby": "⇐",
         
         "+-": "±",
         "-+": "∓",
         "<x>": "×",
         "<*>": "•",
+        r"\div": "÷",
 
         r"\infty": "∞",
         r"\propto": "∝",
@@ -54,12 +97,25 @@ def parse_inline(text: str) -> str:
         r"\cup": "∪",
         r"\cap": "∩",
         r"\emptyset": "∅",
+        r"\land": "∧",
+        r"\lor": "∨",
+        r"\ni": "∋",
+        r"\setminus": "∖",
+        r"\aleph": "ℵ",
         
         r"\sum": "∑",
         r"\prod": "∏",
         r"\int": "∫",
         r"\partial": "∂",
         r"\nabla": "∇",
+
+        r"\cdot": "·",
+        r"\otimes": "⊗",
+        r"\oplus": "⊕",
+
+        r"\iint": "∬",
+        r"\iiint": "∭",
+        r"\oint": "∮",
 
         r"\N": "ℕ",
         r"\Z": "ℤ",
@@ -80,10 +136,17 @@ def parse_inline(text: str) -> str:
         r"\because": "∵",
         r"\degree": "°",
 
+        r"\angle": "∠",
+        r"\perp": "⊥",
+        r"\parallel": "∥",
+        r"\tri": "△",
+
         r"\equilibrium": "⇌",
         r"\benzene": "⌬",
         r"\std": "⦵",
         r"\nuclear": "☢",
+        r"\hbar": "ℏ",
+        r"\ell": "ℓ",
     }
 
     GREEK = {
@@ -142,6 +205,12 @@ def parse_inline(text: str) -> str:
         r"\menu": "☰",
         r"\power": "⏻",
         r"\folder": "🗀",
+
+        r"\up": "↑",
+        r"\down": "↓",
+        r"\left": "←",
+        r"\right": "→",
+        r"\swap": "⇄",
     }
 
 
@@ -199,7 +268,7 @@ def parse_inline(text: str) -> str:
         href = html.escape(m.group(2))
         if href.strip().lower().startswith("javascript:"):
             href = "#"
-        return f'<a href="{href}" TARGET="_blank">{label}</a>'
+        return f'<a href="{href}">{label}</a>'
 
     text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', repl_link, text)
 
